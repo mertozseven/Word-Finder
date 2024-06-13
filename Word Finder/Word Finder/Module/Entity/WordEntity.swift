@@ -9,7 +9,7 @@ import Foundation
 
 // MARK: - WordEntity
 struct WordEntity: Decodable {
-    let word: String
+    let word: String?
     let phonetic: String?
     let phonetics: [Phonetic]?
     let meanings: [Meaning]?

@@ -9,13 +9,13 @@ import Foundation
 
 protocol DetailPresenterProtocol {
     func viewDidLoad()
-    func getWordDetail() -> WordEntity?
+    func didSelectSynonym(_ synonym: String)
 }
 
 final class DetailPresenter {
     unowned var view: DetailViewControllerProtocol!
-    let interactor: DetailInteractorProtocol
     let router: DetailRouterProtocol
+    let interactor: DetailInteractorProtocol
     
     init(view: DetailViewControllerProtocol, interactor: DetailInteractorProtocol, router: DetailRouterProtocol) {
         self.view = view
@@ -26,12 +26,39 @@ final class DetailPresenter {
 
 extension DetailPresenter: DetailPresenterProtocol {
     func viewDidLoad() {
-        if let wordDetail = interactor.getWordDetail() {
-            view.displayWordDetail(wordDetail)
+        view.setupView()
+        interactor.fetchWordDetail()
+    }
+    
+    func didSelectSynonym(_ synonym: String) {
+        router.navigate(.detail(word: synonym))
+    }
+}
+
+extension DetailPresenter: DetailInteractorOutputProtocol {
+    func fetchWordDetailOutput(_ result: DictionaryResult) {
+        DispatchQueue.main.async {
+            switch result {
+            case .success(let response):
+                if let wordDetail = response.first {
+                    self.view.displayWordDetail(wordDetail)
+                } else {
+                    self.view.showAlert(alertTitle: "Error", message: "Error while fetching the word details. Please try again later.", buttonTitle: "Okay")
+                }
+            case .failure:
+                self.view.showAlert(alertTitle: "Error", message: "Error while fetching the word details. Please try again later.", buttonTitle: "Okay")
+            }
         }
     }
     
-    func getWordDetail() -> WordEntity? {
-        return interactor.getWordDetail()
+    func fetchSynonymsOutput(_ result: SynonymResult) {
+        DispatchQueue.main.async {
+            switch result {
+            case .success(let synonyms):
+                self.view.displaySynonyms(synonyms)
+            case .failure:
+                self.view.showAlert(alertTitle: "Error", message: "Error while fetching synonyms. Please try again later.", buttonTitle: "Okay")
+            }
+        }
     }
 }

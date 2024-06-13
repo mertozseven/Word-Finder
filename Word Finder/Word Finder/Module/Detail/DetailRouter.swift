@@ -6,22 +6,26 @@
 //
 
 import Foundation
-import UIKit
+
+enum DetailRoutes {
+    case detail(word: String)
+}
 
 protocol DetailRouterProtocol {
-    // Define navigation methods if needed
+    func navigate(_ route: DetailRoutes)
 }
 
 final class DetailRouter {
     weak var viewController: DetailViewController?
     
-    static func createModule(with word: WordEntity) -> DetailViewController {
+    static func createModule(with word: String) -> DetailViewController {
         let view = DetailViewController(nibName: nil, bundle: nil)
         let interactor = DetailInteractor(word: word)
         let router = DetailRouter()
         let presenter = DetailPresenter(view: view, interactor: interactor, router: router)
         
         view.presenter = presenter
+        interactor.output = presenter
         router.viewController = view
         
         return view
@@ -29,7 +33,11 @@ final class DetailRouter {
 }
 
 extension DetailRouter: DetailRouterProtocol {
-    // Implement navigation methods if needed
+    func navigate(_ route: DetailRoutes) {
+        switch route {
+        case .detail(let word):
+            let detailVC = DetailRouter.createModule(with: word)
+            viewController?.navigationController?.pushViewController(detailVC, animated: true)
+        }
+    }
 }
-
-

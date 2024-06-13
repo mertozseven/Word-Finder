@@ -16,11 +16,23 @@ enum RequestMethod: String {
 // MARK: - Router
 enum Router {
     case search(word: String)
+    case synonyms(word: String)
     
     var path: String {
         switch self {
         case .search(let word):
             return "\(word)"
+        case .synonyms(let word):
+            return "words?rel_syn=\(word)"
+        }
+    }
+    
+    var baseURL: String {
+        switch self {
+        case .search:
+            return Constants.baseURL
+        case .synonyms:
+            return Constants.datamuseBaseURL
         }
     }
 }
@@ -49,7 +61,7 @@ extension API {
         method: RequestMethod = .get
     ) -> URLRequest? {
         
-        let urlString = Constants.baseURL + router.path
+        let urlString = router.baseURL + router.path
         guard let url = URL(string: urlString) else { return nil }
         
         var request = URLRequest(url: url)
@@ -109,4 +121,5 @@ extension API {
         }
         
     }
+    
 }

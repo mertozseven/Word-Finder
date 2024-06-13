@@ -8,7 +8,6 @@
 import Foundation
 
 final class Constants {
-    
     static let baseURL = "https://api.dictionaryapi.dev/api/v2/entries/en/"
-    
+    static let datamuseBaseURL = "https://api.datamuse.com/"
 }

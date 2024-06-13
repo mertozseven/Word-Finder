@@ -12,7 +12,7 @@ protocol HomeViewControllerProtocol: AnyObject {
     func setupTableView()
     func setupTextField()
     func reloadData()
-    func showAlert()
+    func showAlert(alertTitle: String, message: String, buttonTitle: String)
 }
 
 final class HomeViewController: UIViewController {
@@ -36,6 +36,7 @@ final class HomeViewController: UIViewController {
         textField.font = .preferredFont(forTextStyle: .title2)
         textField.adjustsFontSizeToFitWidth = true
         textField.minimumFontSize = 12
+        textField.autocorrectionType = .no
         textField.backgroundColor = .secondarySystemBackground
         textField.placeholder = "Enter a word here"
         textField.returnKeyType = .search
@@ -54,6 +55,16 @@ final class HomeViewController: UIViewController {
         return tableView
     }()
     
+    private let searchButton = WFButton(
+        backgroundColor: .systemBlue,
+        title: "Search",
+        titleState: .normal,
+        font: .preferredFont(forTextStyle: .headline),
+        cornerRadius: 10,
+        titleColor: .white,
+        colorState: .normal
+    )
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,14 +76,17 @@ final class HomeViewController: UIViewController {
     private func configureView() {
         addViews()
         configureLayout()
-        view.backgroundColor = .systemBackground
+        setupKeyboardObservers()
         createDismissKeyboardTapGesture()
+        searchButtonTapped()
+        view.backgroundColor = .systemBackground
     }
     
     private func addViews() {
         view.addSubview(topView)
         view.addSubview(searchTextField)
         view.addSubview(recentTableView)
+        view.addSubview(searchButton)
     }
     
     private func configureLayout() {
@@ -92,14 +106,62 @@ final class HomeViewController: UIViewController {
             recentTableView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 16),
             recentTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             recentTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            recentTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16)
+            recentTableView.bottomAnchor.constraint(equalTo: searchButton.topAnchor, constant: -16)
+        ]
+        let searchButtonConstraints = [
+            searchButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32),
+            searchButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 80),
+            searchButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
+            searchButton.heightAnchor.constraint(equalToConstant: 50)
         ]
         
         NSLayoutConstraint.activate(topViewConstraints)
         NSLayoutConstraint.activate(searchTextFieldConstraints)
         NSLayoutConstraint.activate(recentTableViewConstraints)
+        NSLayoutConstraint.activate(searchButtonConstraints)
     }
     
+    private func performSearch() {
+        guard let text = searchTextField.text, !text.isEmpty else {
+            showAlert(alertTitle: "Please enter a word 📖", message: "Please enter the word you want to search for", buttonTitle: "Okay")
+            return
+        }
+        presenter.searchWord(text)
+    }
+    
+    private func setupKeyboardObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func adjustSearchButtonPosition(keyboardHeight: CGFloat) {
+        UIView.animate(withDuration: 0.3) {
+            self.searchButton.transform = CGAffineTransform(translationX: 0, y: -keyboardHeight)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    private func searchButtonTapped() {
+        searchButton.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(searchButtonAction))
+        searchButton.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    // MARK: - Objective Methods
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let keyboardHeight = keyboardFrame.height - 16
+            adjustSearchButtonPosition(keyboardHeight: keyboardHeight)
+        }
+    }
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        adjustSearchButtonPosition(keyboardHeight: 0)
+    }
+    
+    @objc private func searchButtonAction() {
+        performSearch()
+    }
 }
 
 // MARK: - HomeViewControllerProtocol Extension
@@ -109,12 +171,15 @@ extension HomeViewController: HomeViewControllerProtocol {
         searchTextField.delegate = self
     }
     
-    func showAlert() {
-        presentWFAlertOnMainThread(alertTitle: "Please enter a word 📖", message: "Please enter the word you want to search for", buttonTitle: "Okay")
+    func showAlert(alertTitle: String, message: String, buttonTitle: String) {
+        let alert = UIAlertController(title: alertTitle, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: buttonTitle, style: .default, handler: nil)
+        alert.addAction(action)
+        present(alert, animated: true, completion: nil)
     }
     
     func setupTableView() {
-        
+        // Ensure table view setup if needed
     }
     
     func reloadData() {
@@ -128,7 +193,9 @@ extension HomeViewController: HomeViewControllerProtocol {
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter.didSelectRowAt(indexPath)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
+    
 }
 
 // MARK: - UITableViewDataSource Extension
@@ -151,20 +218,7 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        guard let text = textField.text, !text.isEmpty else {
-            showAlert()
-            return false
-        }
-        presenter.searchWord(text)
+        performSearch()
         return true
     }
-//    
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        guard let text = textField.text, !text.isEmpty else {
-//            showAlert()
-//            return
-//        }
-//        presenter.searchWord(text)
-//    }
 }
-

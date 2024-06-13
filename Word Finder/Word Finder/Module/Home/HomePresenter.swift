@@ -39,7 +39,7 @@ extension HomePresenter: HomePresenterProtocol {
     
     func didSelectRowAt(_ indexPath: IndexPath) {
         let word = recentSearches[indexPath.row]
-        interactor.searchWord(word)
+        router.navigate(.detail(word: word))
     }
     
     func numberOfItems() -> Int {
@@ -61,18 +61,7 @@ extension HomePresenter: HomeInteractorOutputProtocol {
         view.reloadData()
     }
     
-    func searchWordOutput(_ result: DictionaryResult) {
-        switch result {
-        case .success(let response):
-//            if let word = response.word {
-            recentSearches.append(response.first!.word)
-                view.reloadData()
-            router.navigate(.detail(word: response.first!))
-//            } else {
-//                view.showAlert()
-//            }
-        case .failure(let error):
-            view.showAlert()
-        }
+    func searchWordOutput(_ word: String) {
+        router.navigate(.detail(word: word))
     }
 }

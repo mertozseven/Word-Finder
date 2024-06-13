@@ -8,11 +8,12 @@
 import Foundation
 
 enum HomeRoutes {
-    case detail(word: WordEntity)
+    case detail(word: String)
 }
 
 protocol HomeRouterProtocol {
     func navigate(_ route: HomeRoutes)
+    
 }
 
 final class HomeRouter {
@@ -39,4 +40,5 @@ extension HomeRouter: HomeRouterProtocol {
             viewController?.navigationController?.pushViewController(detailVC, animated: true)
         }
     }
+    
 }
