@@ -24,11 +24,34 @@ final class DetailViewController: UIViewController {
     private var audioPlayer: AVPlayer?
     private var currentAudioURL: String?
     private var synonyms: [String] = []
+    private var partOfSpeechLabels: [WFLabel] = []
+    private var meaningViews: [MeaningView] = []
     
     // MARK: - UI Components
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-    private let stackView = UIStackView()
+    
+    private let verticalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
+    private let horizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.alignment = .center
+        stackView.distribution = .fillProportionally
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
     
     private let wordLabel = WFLabel(
         textAlignment: .left,
@@ -99,7 +122,6 @@ extension DetailViewController: DetailViewControllerProtocol {
     func setupView() {
         view.backgroundColor = .systemBackground
         addViews()
-        setupStackView()
         setupConstraints()
         setupTtsButton()
     }
@@ -107,16 +129,16 @@ extension DetailViewController: DetailViewControllerProtocol {
     private func addViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(stackView)
-        stackView.addArrangedSubview(wordLabel)
-        stackView.addArrangedSubview(phoneticLabel)
+        contentView.addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(wordLabel)
+        verticalStackView.addArrangedSubview(phoneticLabel)
         view.addSubview(ttsButton)
     }
     
     private func setupConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        verticalStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -130,10 +152,10 @@ extension DetailViewController: DetailViewControllerProtocol {
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
             
             synonymCollectionView.heightAnchor.constraint(equalToConstant: 162),
             
@@ -142,13 +164,6 @@ extension DetailViewController: DetailViewControllerProtocol {
             ttsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             ttsButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
         ])
-    }
-    
-    private func setupStackView() {
-        stackView.axis = .vertical
-        stackView.spacing = 16
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
     }
     
     private func setupTtsButton() {
@@ -175,20 +190,63 @@ extension DetailViewController: DetailViewControllerProtocol {
             ttsButton.isHidden = true
         }
         
-        stackView.arrangedSubviews.forEach { view in
-            if view is MeaningView {
-                stackView.removeArrangedSubview(view)
+        verticalStackView.arrangedSubviews.forEach { view in
+            if view is MeaningView || view is UIStackView {
+                verticalStackView.removeArrangedSubview(view)
                 view.removeFromSuperview()
             }
         }
-        
+        partOfSpeechLabels.removeAll()
+        meaningViews.removeAll()
+        horizontalStackView.arrangedSubviews.forEach { view in
+            view.removeFromSuperview()
+        }
+        verticalStackView.addArrangedSubview(horizontalStackView)
         word.meanings?.forEach { meaning in
+            let partOfSpeechLabel = WFLabel(
+                text: meaning.partOfSpeech?.capitalized ?? "",
+                textAlignment: .center,
+                textColor: .label,
+                font: .preferredFont(forTextStyle: .body),
+                backgroundColor: .secondarySystemBackground,
+                clipsToBounds: true,
+                cornerRadius: 12,
+                isUserInteractionEnabled: true
+            )
+            partOfSpeechLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(partOfSpeechLabelTapped(_:)))
+            partOfSpeechLabel.addGestureRecognizer(tapGesture)
+            horizontalStackView.addArrangedSubview(partOfSpeechLabel)
+            partOfSpeechLabels.append(partOfSpeechLabel)
+            
             let meaningView = MeaningView()
             meaningView.configure(partOfSpeech: meaning.partOfSpeech?.capitalized ?? "", definitions: meaning.definitions ?? [])
-            stackView.addArrangedSubview(meaningView)
+            meaningViews.append(meaningView)
+            verticalStackView.addArrangedSubview(meaningView)
         }
+        verticalStackView.addArrangedSubview(synonymCollectionView)
+    }
+    
+    @objc private func partOfSpeechLabelTapped(_ sender: UITapGestureRecognizer) {
+        guard let selectedLabel = sender.view as? WFLabel else { return }
         
-        stackView.addArrangedSubview(synonymCollectionView)
+        if selectedLabel.backgroundColor == .systemBlue {
+            selectedLabel.backgroundColor = .secondarySystemBackground
+            selectedLabel.textColor = .label
+            if partOfSpeechLabels.allSatisfy({ $0.backgroundColor == .secondarySystemBackground }) {
+                meaningViews.forEach { $0.isHidden = false }
+            } else {
+                meaningViews.forEach { meaningView in
+                    meaningView.isHidden = !partOfSpeechLabels.contains { $0.backgroundColor == .systemBlue && $0.text == meaningView.partOfSpeech }
+                }
+            }
+        } else {
+            selectedLabel.backgroundColor = .systemBlue
+            selectedLabel.textColor = .white
+            meaningViews.forEach { meaningView in
+                meaningView.isHidden = !partOfSpeechLabels.contains { $0.backgroundColor == .systemBlue && $0.text == meaningView.partOfSpeech }
+            }
+        }
     }
     
     func displaySynonyms(_ synonyms: [SynonymEntity]) {

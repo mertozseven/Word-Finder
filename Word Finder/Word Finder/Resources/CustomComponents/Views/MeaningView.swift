@@ -10,6 +10,7 @@ import UIKit
 class MeaningView: UIView {
     
     // MARK: - Properties
+    var partOfSpeech: String = ""
     private var definitions: [Definition] = [] {
         didSet {
             meaningTableView.reloadData()
@@ -56,6 +57,7 @@ class MeaningView: UIView {
     
     // MARK: - Public Methods
     public func configure(partOfSpeech: String, definitions: [Definition]) {
+        self.partOfSpeech = partOfSpeech
         self.partOfSpeechLabel.text = partOfSpeech
         self.definitions = definitions
     }

@@ -15,7 +15,7 @@ protocol HomePresenterProtocol {
     func searchWord(_ word: String)
 }
 
-final class HomePresenter {
+class HomePresenter {
     unowned var view: HomeViewControllerProtocol!
     let router: HomeRouterProtocol
     let interactor: HomeInteractorProtocol
@@ -35,6 +35,7 @@ extension HomePresenter: HomePresenterProtocol {
         view.reloadData()
         view.setupTextField()
         interactor.fetchRecentSearches()
+        router.navigate(.splash) // Present the splash screen
     }
     
     func didSelectRowAt(_ indexPath: IndexPath) {

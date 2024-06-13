@@ -9,14 +9,14 @@ import Foundation
 
 enum HomeRoutes {
     case detail(word: String)
+    case splash
 }
 
 protocol HomeRouterProtocol {
     func navigate(_ route: HomeRoutes)
-    
 }
 
-final class HomeRouter {
+class HomeRouter {
     weak var viewController: HomeViewController?
     
     static func createModule() -> HomeViewController {
@@ -38,7 +38,9 @@ extension HomeRouter: HomeRouterProtocol {
         case .detail(let word):
             let detailVC = DetailRouter.createModule(with: word)
             viewController?.navigationController?.pushViewController(detailVC, animated: true)
+        case .splash:
+            let splashVC = SplashRouter.createModule()
+            viewController?.present(splashVC, animated: true, completion: nil)
         }
     }
-    
 }

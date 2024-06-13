@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9608F2A82C1B9FC0001C2426 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9608F2A72C1B9FC0001C2426 /* SplashViewController.swift */; };
+		9608F2AA2C1B9FDE001C2426 /* SplashPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9608F2A92C1B9FDE001C2426 /* SplashPresenter.swift */; };
+		9608F2AC2C1B9FF7001C2426 /* SplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9608F2AB2C1B9FF7001C2426 /* SplashRouter.swift */; };
+		9608F2AE2C1BA1DE001C2426 /* SplashInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9608F2AD2C1BA1DE001C2426 /* SplashInteractor.swift */; };
 		964C8EF32C18CB290083F53A /* RecentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964C8EF22C18CB290083F53A /* RecentCell.swift */; };
 		964C8EF52C18D8A70083F53A /* WFTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964C8EF42C18D8A70083F53A /* WFTopView.swift */; };
 		964C8EF72C19AE8B0083F53A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964C8EF62C19AE8B0083F53A /* DetailViewController.swift */; };
@@ -62,6 +66,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		9608F2A72C1B9FC0001C2426 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		9608F2A92C1B9FDE001C2426 /* SplashPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
+		9608F2AB2C1B9FF7001C2426 /* SplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashRouter.swift; sourceTree = "<group>"; };
+		9608F2AD2C1BA1DE001C2426 /* SplashInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashInteractor.swift; sourceTree = "<group>"; };
 		964C8EF22C18CB290083F53A /* RecentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentCell.swift; sourceTree = "<group>"; };
 		964C8EF42C18D8A70083F53A /* WFTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WFTopView.swift; sourceTree = "<group>"; };
 		964C8EF62C19AE8B0083F53A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -286,6 +294,10 @@
 		968C85222C138FA300B6ABCF /* Splash */ = {
 			isa = PBXGroup;
 			children = (
+				9608F2A72C1B9FC0001C2426 /* SplashViewController.swift */,
+				9608F2A92C1B9FDE001C2426 /* SplashPresenter.swift */,
+				9608F2AD2C1BA1DE001C2426 /* SplashInteractor.swift */,
+				9608F2AB2C1B9FF7001C2426 /* SplashRouter.swift */,
 			);
 			path = Splash;
 			sourceTree = "<group>";
@@ -484,12 +496,14 @@
 				968C85312C13965E00B6ABCF /* NetworkManager.swift in Sources */,
 				964C8EF32C18CB290083F53A /* RecentCell.swift in Sources */,
 				968C853B2C139B2600B6ABCF /* UIColor.swift in Sources */,
+				9608F2AE2C1BA1DE001C2426 /* SplashInteractor.swift in Sources */,
 				968C852F2C13965100B6ABCF /* API.swift in Sources */,
 				968C85392C139B0B00B6ABCF /* UIImage.swift in Sources */,
 				96D51CA92C1B72010063AAED /* SynonymCell.swift in Sources */,
 				968C84F12C138E3200B6ABCF /* Word_Finder.xcdatamodeld in Sources */,
 				96CEA13C2C1B2151009036EA /* MeaningCell.swift in Sources */,
 				964C8EF52C18D8A70083F53A /* WFTopView.swift in Sources */,
+				9608F2AA2C1B9FDE001C2426 /* SplashPresenter.swift in Sources */,
 				968C85352C13982200B6ABCF /* Constants.swift in Sources */,
 				964C8EF72C19AE8B0083F53A /* DetailViewController.swift in Sources */,
 				968C85272C13935E00B6ABCF /* HomeViewController.swift in Sources */,
@@ -497,9 +511,11 @@
 				968C85292C13936D00B6ABCF /* HomeInteractor.swift in Sources */,
 				968C852D2C13938300B6ABCF /* HomeRouter.swift in Sources */,
 				968C85452C139CDB00B6ABCF /* WFLabel.swift in Sources */,
+				9608F2A82C1B9FC0001C2426 /* SplashViewController.swift in Sources */,
 				96CEA1382C1B1362009036EA /* MeaningView.swift in Sources */,
 				964C8EFB2C19AEAE0083F53A /* DetailPresenter.swift in Sources */,
 				968C852B2C13937500B6ABCF /* HomePresenter.swift in Sources */,
+				9608F2AC2C1B9FF7001C2426 /* SplashRouter.swift in Sources */,
 				968C85332C13966900B6ABCF /* ServiceManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
