@@ -14,6 +14,7 @@ protocol HomeViewControllerProtocol: AnyObject {
     func showAlert(alertTitle: String, message: String, buttonTitle: String)
 }
 
+// MARK: - HomeViewController
 final class HomeViewController: UIViewController {
     
     // MARK: - Properties

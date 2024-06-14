@@ -36,7 +36,6 @@ class HomePresenter {
 // MARK: - HomePresenterProtocol Methods
 extension HomePresenter: HomePresenterProtocol {
     func viewDidLoad() {
-        view.setupTableView()
         view.reloadData()
         view.setupTextField()
         interactor.fetchRecentSearches()
