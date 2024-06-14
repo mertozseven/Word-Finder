@@ -13,6 +13,7 @@ enum DetailRoutes {
 
 protocol DetailRouterProtocol {
     func navigate(_ route: DetailRoutes)
+    func popVC()
 }
 
 final class DetailRouter {
@@ -33,6 +34,11 @@ final class DetailRouter {
 }
 
 extension DetailRouter: DetailRouterProtocol {
+    
+    func popVC() {
+        viewController?.navigationController?.popViewController(animated: true)
+    }
+    
     func navigate(_ route: DetailRoutes) {
         switch route {
         case .detail(let word):

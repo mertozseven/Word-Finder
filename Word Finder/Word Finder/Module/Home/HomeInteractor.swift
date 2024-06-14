@@ -10,7 +10,9 @@ import Foundation
 protocol HomeInteractorProtocol {
     func fetchRecentSearches()
     func searchWord(_ word: String)
+    func deleteRecentSearch(at index: Int)
 }
+
 
 protocol HomeInteractorOutputProtocol: AnyObject {
     func fetchRecentSearchesOutput(_ searches: [String])
@@ -33,4 +35,10 @@ extension HomeInteractor: HomeInteractorProtocol {
         output?.fetchRecentSearchesOutput(recentSearches)
         output?.searchWordOutput(word)
     }
+    
+    func deleteRecentSearch(at index: Int) {
+        recentSearches.remove(at: index)
+        output?.fetchRecentSearchesOutput(recentSearches)
+    }
+    
 }

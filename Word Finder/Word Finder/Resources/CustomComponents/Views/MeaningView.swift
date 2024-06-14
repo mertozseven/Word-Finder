@@ -39,11 +39,11 @@ class MeaningView: UIView {
         tableView.isScrollEnabled = false
         tableView.isUserInteractionEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 100
         
         return tableView
     }()
+    
+    private var tableViewHeightConstraint: NSLayoutConstraint?
 
     // MARK: - Inits
     override init(frame: CGRect) {
@@ -67,6 +67,7 @@ class MeaningView: UIView {
         addViews()
         configureLayout()
         translatesAutoresizingMaskIntoConstraints = false
+        addTableViewHeightObserver()
     }
     
     private func addViews() {
@@ -75,7 +76,6 @@ class MeaningView: UIView {
     }
     
     private func configureLayout() {
-
         NSLayoutConstraint.activate([
             partOfSpeechLabel.topAnchor.constraint(equalTo: topAnchor),
             partOfSpeechLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -87,13 +87,28 @@ class MeaningView: UIView {
             meaningTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
             meaningTableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        
+        tableViewHeightConstraint = meaningTableView.heightAnchor.constraint(equalToConstant: 0)
+        tableViewHeightConstraint?.isActive = true
+    }
+    
+    private func addTableViewHeightObserver() {
+        meaningTableView.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+    }
+    
+    deinit {
+        meaningTableView.removeObserver(self, forKeyPath: "contentSize")
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "contentSize", let newValue = change?[.newKey] as? CGSize {
+            tableViewHeightConstraint?.constant = newValue.height
+        }
     }
     
     private func updateHeight() {
+        meaningTableView.reloadData()
         meaningTableView.layoutIfNeeded()
-        NSLayoutConstraint.activate([
-            meaningTableView.heightAnchor.constraint(equalToConstant: meaningTableView.contentSize.height)
-        ])
     }
 }
 
@@ -110,10 +125,6 @@ extension MeaningView: UITableViewDelegate, UITableViewDataSource {
         let definition = definitions[indexPath.row]
         cell.configure(definition: definition.definition ?? "", example: definition.example ?? "")
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

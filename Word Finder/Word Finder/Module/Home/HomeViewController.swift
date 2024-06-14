@@ -65,11 +65,30 @@ final class HomeViewController: UIViewController {
         colorState: .normal
     )
     
+    private let emptyStateLabel: WFLabel = {
+        let label = WFLabel(
+            text: "The recent searches will appear here",
+            textAlignment: .center,
+            textColor: .secondaryLabel,
+            font: .preferredFont(forTextStyle: .body),
+            numberOfLines: 0,
+            adjustsFontSizeToFitWidth: true,
+            minimumScaleFactor: 0.5
+        )
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewDidLoad()
         configureView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     // MARK: - Private Methods
@@ -87,6 +106,7 @@ final class HomeViewController: UIViewController {
         view.addSubview(searchTextField)
         view.addSubview(recentTableView)
         view.addSubview(searchButton)
+        view.addSubview(emptyStateLabel)
     }
     
     private func configureLayout() {
@@ -114,11 +134,18 @@ final class HomeViewController: UIViewController {
             searchButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -80),
             searchButton.heightAnchor.constraint(equalToConstant: 50)
         ]
+        let emptyStateLabelConstraints = [
+            emptyStateLabel.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 16),
+            emptyStateLabel.centerXAnchor.constraint(equalTo: recentTableView.centerXAnchor),
+            emptyStateLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            emptyStateLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ]
         
         NSLayoutConstraint.activate(topViewConstraints)
         NSLayoutConstraint.activate(searchTextFieldConstraints)
         NSLayoutConstraint.activate(recentTableViewConstraints)
         NSLayoutConstraint.activate(searchButtonConstraints)
+        NSLayoutConstraint.activate(emptyStateLabelConstraints)
     }
     
     private func performSearch() {
@@ -145,6 +172,17 @@ final class HomeViewController: UIViewController {
         searchButton.addTarget(self, action: #selector(searchButtonAction), for: .touchUpInside)
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(searchButtonAction))
         searchButton.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    private func confirmDeleteWord(at indexPath: IndexPath) {
+        let alert = UIAlertController(title: "Delete Word", message: "Are you sure you want to delete this word from recent searches?", preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "Yes", style: .destructive) { [weak self] _ in
+            self?.presenter.deleteRecentSearch(at: indexPath.row)
+        }
+        let cancelAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Objective Methods
@@ -184,6 +222,9 @@ extension HomeViewController: HomeViewControllerProtocol {
     
     func reloadData() {
         DispatchQueue.main.async {
+            self.recentSearches = self.presenter.getRecentSearches() ?? []
+            self.emptyStateLabel.isHidden = !self.recentSearches.isEmpty
+            self.recentTableView.isHidden = self.recentSearches.isEmpty
             self.recentTableView.reloadData()
         }
     }
@@ -196,6 +237,13 @@ extension HomeViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (_, _, completionHandler) in
+            self?.confirmDeleteWord(at: indexPath)
+            completionHandler(true)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
 
 // MARK: - UITableViewDataSource Extension

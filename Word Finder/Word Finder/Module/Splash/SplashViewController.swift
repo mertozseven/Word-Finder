@@ -67,7 +67,7 @@ class SplashViewController: UIViewController {
     }()
     
     private let bookTitleDescription = WFLabel(
-        text: "See Scores",
+        text: "See Details",
         textAlignment: .left,
         textColor: .label,
         font: .preferredFont(forTextStyle: .title2),
@@ -75,7 +75,7 @@ class SplashViewController: UIViewController {
     )
     
     private let bookDescription = WFLabel(
-        text: "Is it good or is it bad? Check the metacritic scores of the most popular games 🎯",
+        text: "What is that mean ? Check the in depth detail of the words you want to know 🤓.",
         textAlignment: .left,
         textColor: .secondaryLabel,
         font: .preferredFont(forTextStyle: .body),
@@ -161,10 +161,10 @@ extension SplashViewController: SplashViewControllerProtocol {
             welcomeLabel.heightAnchor.constraint(equalToConstant: 96)
         ]
         let textIconConstraints = [
-            textIcon.topAnchor.constraint(equalTo: textTitleDescription.topAnchor, constant: 12),
+            textIcon.topAnchor.constraint(equalTo: textTitleDescription.topAnchor, constant: 16),
             textIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
-            textIcon.widthAnchor.constraint(equalToConstant: 56),
-            textIcon.heightAnchor.constraint(equalToConstant: 56)
+            textIcon.widthAnchor.constraint(equalToConstant: 52),
+            textIcon.heightAnchor.constraint(equalToConstant: 52)
         ]
         let textTitleDescriptionConstraints = [
             textTitleDescription.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 32),
@@ -197,7 +197,7 @@ extension SplashViewController: SplashViewControllerProtocol {
             bookDescription.heightAnchor.constraint(equalToConstant: 72)
         ]
         let devicesIconConstraints = [
-            devicesIcon.topAnchor.constraint(equalTo: devicesTitleDescription.topAnchor, constant: 42),
+            devicesIcon.topAnchor.constraint(equalTo: devicesTitleDescription.topAnchor, constant: 36),
             devicesIcon.leadingAnchor.constraint(equalTo: textIcon.leadingAnchor, constant: -8),
             devicesIcon.widthAnchor.constraint(equalToConstant: 64),
             devicesIcon.heightAnchor.constraint(equalToConstant: 64)

@@ -43,9 +43,11 @@ extension DetailPresenter: DetailInteractorOutputProtocol {
                 if let wordDetail = response.first {
                     self.view.displayWordDetail(wordDetail)
                 } else {
+                    self.router.popVC()
                     self.view.showAlert(alertTitle: "Error", message: "Error while fetching the word details. Please try again later.", buttonTitle: "Okay")
                 }
             case .failure:
+                self.router.popVC()
                 self.view.showAlert(alertTitle: "Error", message: "Error while fetching the word details. Please try again later.", buttonTitle: "Okay")
             }
         }

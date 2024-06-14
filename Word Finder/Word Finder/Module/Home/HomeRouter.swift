@@ -40,7 +40,10 @@ extension HomeRouter: HomeRouterProtocol {
             viewController?.navigationController?.pushViewController(detailVC, animated: true)
         case .splash:
             let splashVC = SplashRouter.createModule()
-            viewController?.present(splashVC, animated: true, completion: nil)
+            
+            viewController?.present(splashVC, animated: true, completion: {
+                splashVC.presentationController?.presentedView?.gestureRecognizers?[0].isEnabled = false
+            })
         }
     }
 }

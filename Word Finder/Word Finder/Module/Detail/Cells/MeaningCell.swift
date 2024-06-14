@@ -100,9 +100,4 @@ class MeaningCell: UITableViewCell {
         ])
     }
 
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        exampleTitleLabel.isHidden = false
-        exampleLabel.isHidden = false
-    }
 }

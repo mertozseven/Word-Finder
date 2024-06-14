@@ -36,7 +36,7 @@ final class DetailViewController: UIViewController {
         stackView.axis = .vertical
         stackView.spacing = 16
         stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -56,7 +56,7 @@ final class DetailViewController: UIViewController {
     private let wordLabel = WFLabel(
         textAlignment: .left,
         textColor: .label,
-        font: .preferredFont(forTextStyle: .largeTitle),
+        font: .preferredFont(forTextStyle: .extraLargeTitle),
         numberOfLines: 0,
         adjustsFontSizeToFitWidth: true,
         minimumScaleFactor: 0.5
@@ -67,7 +67,7 @@ final class DetailViewController: UIViewController {
         textColor: .secondaryLabel,
         font: .preferredFont(forTextStyle: .headline),
         numberOfLines: 0,
-        adjustsFontSizeToFitWidth: true,
+        adjustsFontSizeToFitWidth: false,
         minimumScaleFactor: 0.5
     )
     
@@ -112,6 +112,11 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
 }
@@ -189,7 +194,6 @@ extension DetailViewController: DetailViewControllerProtocol {
         } else {
             ttsButton.isHidden = true
         }
-        
         verticalStackView.arrangedSubviews.forEach { view in
             if view is MeaningView || view is UIStackView {
                 verticalStackView.removeArrangedSubview(view)
@@ -283,6 +287,7 @@ extension DetailViewController: UICollectionViewDataSource, UICollectionViewDele
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout Methods
 extension DetailViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

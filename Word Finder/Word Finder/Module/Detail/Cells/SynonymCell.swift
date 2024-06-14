@@ -20,7 +20,7 @@ class SynonymCell: UICollectionViewCell {
         font: .preferredFont(forTextStyle: .headline),
         backgroundColor: .secondarySystemBackground,
         clipsToBounds: true,
-        cornerRadius: 18,
+        cornerRadius: 12,
         adjustsFontSizeToFitWidth: true,
         minimumScaleFactor: 0.5
     )

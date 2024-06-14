@@ -13,7 +13,10 @@ protocol HomePresenterProtocol {
     func numberOfItems() -> Int
     func recentSearch(at indexPath: IndexPath) -> String?
     func searchWord(_ word: String)
+    func getRecentSearches() -> [String]?
+    func deleteRecentSearch(at index: Int)
 }
+
 
 class HomePresenter {
     unowned var view: HomeViewControllerProtocol!
@@ -35,7 +38,7 @@ extension HomePresenter: HomePresenterProtocol {
         view.reloadData()
         view.setupTextField()
         interactor.fetchRecentSearches()
-        router.navigate(.splash) // Present the splash screen
+        router.navigate(.splash)
     }
     
     func didSelectRowAt(_ indexPath: IndexPath) {
@@ -53,6 +56,14 @@ extension HomePresenter: HomePresenterProtocol {
     
     func searchWord(_ word: String) {
         interactor.searchWord(word)
+    }
+    
+    func getRecentSearches() -> [String]? {
+        return recentSearches
+    }
+    
+    func deleteRecentSearch(at index: Int) {
+        interactor.deleteRecentSearch(at: index)
     }
 }
 
