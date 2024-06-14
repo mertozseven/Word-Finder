@@ -7,11 +7,13 @@
 
 import Foundation
 
+// MARK: - DetailPresenterProtocol
 protocol DetailPresenterProtocol {
     func viewDidLoad()
     func didSelectSynonym(_ synonym: String)
 }
 
+// MARK: - DetailPresenter
 final class DetailPresenter {
     unowned var view: DetailViewControllerProtocol!
     let router: DetailRouterProtocol
@@ -24,6 +26,7 @@ final class DetailPresenter {
     }
 }
 
+// MARK: - DetailPresenterProtocol Methods
 extension DetailPresenter: DetailPresenterProtocol {
     func viewDidLoad() {
         view.setupView()
@@ -35,6 +38,7 @@ extension DetailPresenter: DetailPresenterProtocol {
     }
 }
 
+// MARK: - DetailInteractorOutputProtocol Methods
 extension DetailPresenter: DetailInteractorOutputProtocol {
     func fetchWordDetailOutput(_ result: DictionaryResult) {
         DispatchQueue.main.async {

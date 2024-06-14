@@ -7,10 +7,12 @@
 
 import Foundation
 
+// MARK: - SplashRouterProtocol
 protocol SplashRouterProtocol {
     func dismissSplash()
 }
 
+// MARK: - SplashRouter
 class SplashRouter {
     weak var viewController: SplashViewController?
     
@@ -25,6 +27,7 @@ class SplashRouter {
     }
 }
 
+// MARK: - SplashRouterProtocol Methods
 extension SplashRouter: SplashRouterProtocol {
     func dismissSplash() {
         viewController?.dismiss(animated: true, completion: nil)

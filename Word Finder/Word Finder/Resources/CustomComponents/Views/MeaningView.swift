@@ -112,6 +112,7 @@ class MeaningView: UIView {
     }
 }
 
+// MARK: - UITableViewDelegate, UITableViewDataSource Methods
 extension MeaningView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

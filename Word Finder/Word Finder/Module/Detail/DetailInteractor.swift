@@ -12,16 +12,19 @@ fileprivate var dictionaryService: DictionaryServiceProtocol = API()
 typealias DictionaryResult = Result<[WordEntity], NetworkError>
 typealias SynonymResult = Result<[SynonymEntity], NetworkError>
 
+// MARK: - DetailInteractorProtocol
 protocol DetailInteractorProtocol {
     func fetchWordDetail()
     func fetchSynonyms(for word: String)
 }
 
+// MARK: - DetailInteractorOutputProtocol
 protocol DetailInteractorOutputProtocol: AnyObject {
     func fetchWordDetailOutput(_ result: DictionaryResult)
     func fetchSynonymsOutput(_ result: SynonymResult)
 }
 
+// MARK: - DetailInteractor
 final class DetailInteractor {
     weak var output: DetailInteractorOutputProtocol?
     private let word: String
@@ -32,6 +35,7 @@ final class DetailInteractor {
     }
 }
 
+// MARK: - DetailInteractorProtocol Methods
 extension DetailInteractor: DetailInteractorProtocol {
     func fetchWordDetail() {
         dictionaryService.searchWord(word: word) { [weak self] result in

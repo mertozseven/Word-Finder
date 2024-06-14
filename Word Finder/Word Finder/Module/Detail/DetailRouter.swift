@@ -7,15 +7,18 @@
 
 import Foundation
 
+// MARK: - DetailRoutes
 enum DetailRoutes {
     case detail(word: String)
 }
 
+// MARK: - DetailRouterProtocol
 protocol DetailRouterProtocol {
     func navigate(_ route: DetailRoutes)
     func popVC()
 }
 
+// MARK: - DetailRouter
 final class DetailRouter {
     weak var viewController: DetailViewController?
     
@@ -33,6 +36,7 @@ final class DetailRouter {
     }
 }
 
+// MARK: - DetailRouterProtocol Methods
 extension DetailRouter: DetailRouterProtocol {
     
     func popVC() {

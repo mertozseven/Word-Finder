@@ -19,7 +19,6 @@
 		964C8EFF2C19AEC50083F53A /* DetailRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964C8EFE2C19AEC50083F53A /* DetailRouter.swift */; };
 		968C84E72C138E3200B6ABCF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C84E62C138E3200B6ABCF /* AppDelegate.swift */; };
 		968C84E92C138E3200B6ABCF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C84E82C138E3200B6ABCF /* SceneDelegate.swift */; };
-		968C84EB2C138E3200B6ABCF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 968C84EA2C138E3200B6ABCF /* ViewController.swift */; };
 		968C84F12C138E3200B6ABCF /* Word_Finder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 968C84EF2C138E3200B6ABCF /* Word_Finder.xcdatamodeld */; };
 		968C84F32C138E3300B6ABCF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 968C84F22C138E3300B6ABCF /* Assets.xcassets */; };
 		968C84F62C138E3300B6ABCF /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 968C84F52C138E3300B6ABCF /* Base */; };
@@ -83,7 +82,6 @@
 		968C84E32C138E3200B6ABCF /* Word Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Word Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		968C84E62C138E3200B6ABCF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		968C84E82C138E3200B6ABCF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		968C84EA2C138E3200B6ABCF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		968C84F02C138E3200B6ABCF /* Word_Finder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Word_Finder.xcdatamodel; sourceTree = "<group>"; };
 		968C84F22C138E3300B6ABCF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		968C84F52C138E3300B6ABCF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -178,7 +176,6 @@
 				968C85192C138E5200B6ABCF /* Network */,
 				968C851A2C138E5800B6ABCF /* Module */,
 				968C851B2C138EE000B6ABCF /* Resources */,
-				968C84EA2C138E3200B6ABCF /* ViewController.swift */,
 				968C84F22C138E3300B6ABCF /* Assets.xcassets */,
 				968C84F42C138E3300B6ABCF /* LaunchScreen.storyboard */,
 				968C84F72C138E3300B6ABCF /* Info.plist */,
@@ -503,7 +500,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				968C84EB2C138E3200B6ABCF /* ViewController.swift in Sources */,
 				964C8EF92C19AE9F0083F53A /* DetailInteractor.swift in Sources */,
 				968C84E72C138E3200B6ABCF /* AppDelegate.swift in Sources */,
 				968C85402C139C1C00B6ABCF /* WFAlertViewController.swift in Sources */,

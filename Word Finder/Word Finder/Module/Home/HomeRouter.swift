@@ -7,15 +7,17 @@
 
 import Foundation
 
+// MARK: - HomeRoutes
 enum HomeRoutes {
     case detail(word: String)
     case splash
 }
-
+// MARK: - HomeRouterProtocol
 protocol HomeRouterProtocol {
     func navigate(_ route: HomeRoutes)
 }
 
+// MARK: - HomeRouter
 class HomeRouter {
     weak var viewController: HomeViewController?
     
@@ -32,6 +34,7 @@ class HomeRouter {
     }
 }
 
+// MARK: - HomeRouterProtocol Methods
 extension HomeRouter: HomeRouterProtocol {
     func navigate(_ route: HomeRoutes) {
         switch route {

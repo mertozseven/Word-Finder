@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - HomePresenterProtocol
 protocol HomePresenterProtocol {
     func viewDidLoad()
     func didSelectRowAt(_ indexPath: IndexPath)
@@ -17,6 +18,7 @@ protocol HomePresenterProtocol {
     func deleteRecentSearch(at index: Int)
 }
 
+// MARK: - HomePresenter
 class HomePresenter {
     unowned var view: HomeViewControllerProtocol!
     let router: HomeRouterProtocol
@@ -31,6 +33,7 @@ class HomePresenter {
     }
 }
 
+// MARK: - HomePresenterProtocol Methods
 extension HomePresenter: HomePresenterProtocol {
     func viewDidLoad() {
         view.setupTableView()
@@ -66,6 +69,7 @@ extension HomePresenter: HomePresenterProtocol {
     }
 }
 
+// MARK: - HomeInteractorOutputProtocol Methods
 extension HomePresenter: HomeInteractorOutputProtocol {
     func fetchRecentSearchesOutput(_ searches: [String]) {
         self.recentSearches = searches

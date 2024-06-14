@@ -9,7 +9,6 @@ import UIKit
 
 // MARK: - HomeViewController Protocol
 protocol HomeViewControllerProtocol: AnyObject {
-    func setupTableView()
     func setupTextField()
     func reloadData()
     func showAlert(alertTitle: String, message: String, buttonTitle: String)
@@ -203,7 +202,7 @@ final class HomeViewController: UIViewController {
     }
 }
 
-// MARK: - HomeViewControllerProtocol Extension
+// MARK: - HomeViewControllerProtocol Methods
 extension HomeViewController: HomeViewControllerProtocol {
     
     func setupTextField() {
@@ -217,10 +216,6 @@ extension HomeViewController: HomeViewControllerProtocol {
         present(alert, animated: true, completion: nil)
     }
     
-    func setupTableView() {
-        // Ensure table view setup if needed
-    }
-    
     func reloadData() {
         DispatchQueue.main.async {
             self.recentSearches = self.presenter.getRecentSearches() ?? []
@@ -231,7 +226,7 @@ extension HomeViewController: HomeViewControllerProtocol {
     }
 }
 
-// MARK: - UITableViewDelegate Extension
+// MARK: - UITableViewDelegate Methods
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         presenter.didSelectRowAt(indexPath)
@@ -247,7 +242,7 @@ extension HomeViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - UITableViewDataSource Extension
+// MARK: - UITableViewDataSource Methods
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return presenter.numberOfItems()
@@ -263,7 +258,7 @@ extension HomeViewController: UITableViewDataSource {
     }
 }
 
-// MARK: - UITextFieldDelegate Extension
+// MARK: - UITextFieldDelegate Methods
 extension HomeViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

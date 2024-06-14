@@ -7,11 +7,13 @@
 
 import Foundation
 
+// MARK: - SplashPresenterProtocol
 protocol SplashPresenterProtocol {
     func viewDidLoad()
     func didTapContinueButton()
 }
 
+// MARK: - SplashPresenter
 class SplashPresenter {
     unowned var view: SplashViewControllerProtocol
     let interactor: SplashInteractorProtocol
@@ -24,6 +26,7 @@ class SplashPresenter {
     }
 }
 
+// MARK: - SplashPresenterProtocol Methods
 extension SplashPresenter: SplashPresenterProtocol {
     func viewDidLoad() {
         view.setupView()

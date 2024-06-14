@@ -7,6 +7,8 @@
 
 import UIKit
 
+
+// MARK: - SplashViewControllerProtocol
 protocol SplashViewControllerProtocol: AnyObject {
     func setupView()
 }
@@ -124,12 +126,14 @@ class SplashViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewDidLoad()
     }
 }
 
+// MARK: - SplashViewControllerProtocol Methods
 extension SplashViewController: SplashViewControllerProtocol {
     func setupView() {
         view.backgroundColor = .systemBackground
