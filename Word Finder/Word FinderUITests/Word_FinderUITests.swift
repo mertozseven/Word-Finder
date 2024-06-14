@@ -9,33 +9,101 @@ import XCTest
 
 final class Word_FinderUITests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-
-        // In UI tests it is usually best to stop immediately when a failure occurs.
+    private var app: XCUIApplication!
+    
+    override func setUp() {
+        super.setUp()
+        
         continueAfterFailure = false
-
-        // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // UI tests must launch the application that they test.
-        let app = XCUIApplication()
+        
+        app = XCUIApplication()
         app.launch()
-
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
 
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
+    override func tearDown() {
+        app = nil
+        super.tearDown()
+    }
+
+    // Test 1: Verify Splash Screen elements
+    func test_splashScreenElements() {
+        let welcomeLabel = app.staticTexts["Welcome to \nWord Finder"]
+        XCTAssertTrue(welcomeLabel.exists)
+        
+        let textIcon = app.images["text.word.spacing"]
+        XCTAssertTrue(textIcon.exists)
+        
+        let textTitleDescription = app.staticTexts["Your Pocket Dictionary"]
+        XCTAssertTrue(textTitleDescription.exists)
+        
+        let continueButton = app.buttons["Continue"]
+        XCTAssertTrue(continueButton.exists)
+    }
+
+    // Test 2: Tap Continue Button on Splash Screen
+    func test_tapContinueButton() {
+        let continueButton = app.buttons["Continue"]
+        XCTAssertTrue(continueButton.exists)
+        continueButton.tap()
+        
+        // Verify that we navigated to the Home screen
+        let searchTextField = app.textFields["Enter a word here"]
+        XCTAssertTrue(searchTextField.exists)
+    }
+
+    // Test 3: Verify Home Screen elements
+    func test_homeScreenElements() {
+        let continueButton = app.buttons["Continue"]
+        continueButton.tap()
+        
+        let searchTextField = app.textFields["Enter a word here"]
+        XCTAssertTrue(searchTextField.exists)
+        
+        let searchButton = app.buttons["Search"]
+        XCTAssertTrue(searchButton.exists)
+        
+        let emptyStateLabel = app.staticTexts["The recent searches will appear here"]
+        XCTAssertTrue(emptyStateLabel.exists)
+    }
+
+    // Test 4: Perform a search on Home Screen
+    func test_searchWord() {
+        let continueButton = app.buttons["Continue"]
+        continueButton.tap()
+        
+        let searchTextField = app.textFields["Enter a word here"]
+        XCTAssertTrue(searchTextField.exists)
+        searchTextField.tap()
+        searchTextField.typeText("Example\n")
+        
+        // Return to Home screen
+        let backButton = app.navigationBars.buttons.element(boundBy: 0)
+        backButton.tap()
+        
+        // Verify that search action was performed and Detail screen should appear
+        let wordLabel = app.staticTexts["Example"]
+        XCTAssertTrue(wordLabel.exists)
+    }
+
+    // Test 5: Verify Recent Searches appear after performing a search
+    func test_recentSearchesAppear() {
+        let continueButton = app.buttons["Continue"]
+        continueButton.tap()
+        
+        let searchTextField = app.textFields["Enter a word here"]
+        searchTextField.tap()
+        searchTextField.typeText("example\n")
+        
+        // Return to Home screen
+        let backButton = app.navigationBars.buttons.element(boundBy: 0)
+        backButton.tap()
+        
+        // Verify that the recent search appears in the table view
+        let recentTableView = app.tables.element(boundBy: 0)
+        XCTAssertTrue(recentTableView.exists)
+        
+        let recentSearchCell = recentTableView.cells.staticTexts["example"]
+        XCTAssertTrue(recentSearchCell.exists)
     }
 }
+
