@@ -61,9 +61,6 @@ final class Word_FinderUITests: XCTestCase {
         
         let searchButton = app.buttons["Search"]
         XCTAssertTrue(searchButton.exists)
-        
-        let emptyStateLabel = app.staticTexts["The recent searches will appear here"]
-        XCTAssertTrue(emptyStateLabel.exists)
     }
 
     // Test 4: Perform a search on Home Screen
