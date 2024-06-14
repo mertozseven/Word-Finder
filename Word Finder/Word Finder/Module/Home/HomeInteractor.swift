@@ -13,7 +13,6 @@ protocol HomeInteractorProtocol {
     func deleteRecentSearch(at index: Int)
 }
 
-
 protocol HomeInteractorOutputProtocol: AnyObject {
     func fetchRecentSearchesOutput(_ searches: [String])
     func searchWordOutput(_ word: String)
@@ -21,7 +20,14 @@ protocol HomeInteractorOutputProtocol: AnyObject {
 
 final class HomeInteractor {
     weak var output: HomeInteractorOutputProtocol?
-    private var recentSearches: [String] = []
+    private var recentSearches: [String] {
+        get {
+            UserDefaults.standard.stringArray(forKey: "recentSearches") ?? []
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "recentSearches")
+        }
+    }
 }
 
 extension HomeInteractor: HomeInteractorProtocol {
@@ -31,7 +37,16 @@ extension HomeInteractor: HomeInteractorProtocol {
     }
     
     func searchWord(_ word: String) {
-        recentSearches.append(word)
+        if recentSearches.contains(word) {
+            recentSearches.removeAll { $0 == word }
+        }
+        
+        recentSearches.insert(word, at: 0)
+        
+        if recentSearches.count > 5 {
+            recentSearches.removeLast()
+        }
+        
         output?.fetchRecentSearchesOutput(recentSearches)
         output?.searchWordOutput(word)
     }
@@ -40,5 +55,4 @@ extension HomeInteractor: HomeInteractorProtocol {
         recentSearches.remove(at: index)
         output?.fetchRecentSearchesOutput(recentSearches)
     }
-    
 }

@@ -98,6 +98,7 @@ final class HomeViewController: UIViewController {
         setupKeyboardObservers()
         createDismissKeyboardTapGesture()
         searchButtonTapped()
+        title = "Home"
         view.backgroundColor = .systemBackground
     }
     

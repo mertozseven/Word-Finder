@@ -17,7 +17,6 @@ protocol HomePresenterProtocol {
     func deleteRecentSearch(at index: Int)
 }
 
-
 class HomePresenter {
     unowned var view: HomeViewControllerProtocol!
     let router: HomeRouterProtocol

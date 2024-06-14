@@ -46,6 +46,10 @@
 		96CEA13C2C1B2151009036EA /* MeaningCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96CEA13B2C1B2151009036EA /* MeaningCell.swift */; };
 		96D51CA72C1B6AD00063AAED /* SynonymEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D51CA62C1B6AD00063AAED /* SynonymEntity.swift */; };
 		96D51CA92C1B72010063AAED /* SynonymCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96D51CA82C1B72010063AAED /* SynonymCell.swift */; };
+		96DA26222C1C916C005CCF5E /* MockHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA26212C1C916C005CCF5E /* MockHomeViewController.swift */; };
+		96DA26242C1C9184005CCF5E /* MockHomeInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA26232C1C9184005CCF5E /* MockHomeInteractor.swift */; };
+		96DA26262C1C919B005CCF5E /* MockHomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA26252C1C919B005CCF5E /* MockHomeRouter.swift */; };
+		96DA26282C1C91F5005CCF5E /* HomePresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DA26272C1C91F5005CCF5E /* HomePresenterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +113,10 @@
 		96CEA13B2C1B2151009036EA /* MeaningCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeaningCell.swift; sourceTree = "<group>"; };
 		96D51CA62C1B6AD00063AAED /* SynonymEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynonymEntity.swift; sourceTree = "<group>"; };
 		96D51CA82C1B72010063AAED /* SynonymCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SynonymCell.swift; sourceTree = "<group>"; };
+		96DA26212C1C916C005CCF5E /* MockHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeViewController.swift; sourceTree = "<group>"; };
+		96DA26232C1C9184005CCF5E /* MockHomeInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeInteractor.swift; sourceTree = "<group>"; };
+		96DA26252C1C919B005CCF5E /* MockHomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockHomeRouter.swift; sourceTree = "<group>"; };
+		96DA26272C1C91F5005CCF5E /* HomePresenterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePresenterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -182,6 +190,7 @@
 		968C84FF2C138E3300B6ABCF /* Word FinderTests */ = {
 			isa = PBXGroup;
 			children = (
+				96DA26292C1C924B005CCF5E /* Mock */,
 				968C85002C138E3300B6ABCF /* Word_FinderTests.swift */,
 			);
 			path = "Word FinderTests";
@@ -351,6 +360,17 @@
 				96D51CA82C1B72010063AAED /* SynonymCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		96DA26292C1C924B005CCF5E /* Mock */ = {
+			isa = PBXGroup;
+			children = (
+				96DA26212C1C916C005CCF5E /* MockHomeViewController.swift */,
+				96DA26232C1C9184005CCF5E /* MockHomeInteractor.swift */,
+				96DA26252C1C919B005CCF5E /* MockHomeRouter.swift */,
+				96DA26272C1C91F5005CCF5E /* HomePresenterTests.swift */,
+			);
+			path = Mock;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -525,6 +545,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				968C85012C138E3300B6ABCF /* Word_FinderTests.swift in Sources */,
+				96DA26222C1C916C005CCF5E /* MockHomeViewController.swift in Sources */,
+				96DA26242C1C9184005CCF5E /* MockHomeInteractor.swift in Sources */,
+				96DA26282C1C91F5005CCF5E /* HomePresenterTests.swift in Sources */,
+				96DA26262C1C919B005CCF5E /* MockHomeRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
